@@ -20,7 +20,7 @@
 
 ## About The Project
 
-![Screenshot](https://cdn.discordapp.com/attachments/1123160213499949128/1135961329895751851/image.png)
+![Screenshot](https://media.discordapp.net/attachments/1123160213499949128/1135968127012847696/image.png?width=1277&height=670)
 
 ## Getting Started
 

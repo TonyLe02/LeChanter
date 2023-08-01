@@ -1,5 +1,5 @@
 <template>
-  <title-base title="Overview" boxIcon="bx bxs-home" />
+  <title-base title="Home" boxIcon="bx bxs-home" />
 
   <div class="mt-4">
     <label for="token" class="text-lg text-white mb-2">Message to Electron:</label>
