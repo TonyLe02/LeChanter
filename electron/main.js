@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+require('./ipc.js')
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -15,7 +16,7 @@ function createWindow() {
 
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, './dist/index.html'),
+      pathname: path.join(__dirname, '../dist/index.html'),
       protocol: 'file:',
       slashes: true
     })
@@ -33,9 +34,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
-
-// * IPC Example * //
-
-ipcMain.handle('message', async (event, arg) => {
-  console.log('Message received from renderer:', arg);
-});
