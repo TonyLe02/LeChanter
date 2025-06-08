@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install dependencies
-echo "Installing Node.js dependencies..."
-npm install
+#echo "Installing Node.js dependencies..."
+#npm install
 
 # Build the Vite project
 echo "Building the Vite project..."

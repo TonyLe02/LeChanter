@@ -15,7 +15,9 @@
     "make": "electron-forge make"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
+    "express": "^5.1.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vue3-toastify": "^0.1.11"
