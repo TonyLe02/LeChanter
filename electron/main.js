@@ -116,3 +116,22 @@ ipcMain.on("close-window", (event) => {
     win.close();
   }
 });
+
+// Transparency handler
+ipcMain.on("set-transparency", (event, transparent) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) {
+    if (transparent) {
+      // Make window transparent and remove background
+      win.setBackgroundColor("#00000000");
+      win.setOpacity(0.95);
+      // Optional: remove window decorations for cleaner overlay
+      // win.setIgnoreMouseEvents(true, { forward: true });
+    } else {
+      // Restore normal window
+      win.setBackgroundColor("#1a1a1a");
+      win.setOpacity(1.0);
+      // win.setIgnoreMouseEvents(false);
+    }
+  }
+});

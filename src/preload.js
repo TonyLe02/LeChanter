@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   minimizeWindow: () => ipcRenderer.send("minimize-window"),
   maximizeWindow: () => ipcRenderer.send("maximize-window"),
   closeWindow: () => ipcRenderer.send("close-window"),
+  setTransparency: (transparent) =>
+    ipcRenderer.send("set-transparency", transparent),
   onResizeStart: (callback) => ipcRenderer.on("resize-start", callback),
   onResizeEnd: (callback) => ipcRenderer.on("resize-end", callback),
 });
