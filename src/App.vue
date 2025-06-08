@@ -92,10 +92,7 @@
       </div>
 
       <!-- Offset controls overlay -->
-      <div
-        v-if="lyrics && (!isFocusMode || isTransparent)"
-        class="absolute top-4 left-4 z-20 no-drag"
-      >
+      <div v-if="lyrics" class="absolute top-4 left-4 z-20 no-drag">
         <!-- BPM Speed Controls -->
         <div class="flex items-center space-x-2">
           <span
@@ -208,30 +205,30 @@
             <div
               class="flex flex-col justify-center items-center space-y-6 min-h-[60vh]"
             >
-                <div
+              <div
                 v-for="(line, index) in focusedLyrics"
                 :key="index"
                 @click="syncToLyricLine(line.actualIndex)"
                 :class="[
                   'transition-all duration-500 p-6 rounded-lg leading-relaxed text-center max-w-4xl cursor-pointer hover:bg-white/5',
                   line.isCurrent
-                  ? 'text-white scale-110 font-bold text-4xl text-shadow-lg'
-                  : line.isNext
-                  ? isTransparent
-                    ? 'text-gray-100 text-2xl opacity-100 hover:text-white hover:opacity-100 text-shadow-md'
-                    : 'text-gray-200 text-2xl opacity-90 hover:text-gray-100 hover:opacity-85 text-shadow-md'
-                  : line.isPrevious
-                  ? isTransparent
-                    ? 'text-gray-200 text-xl opacity-95 hover:text-gray-100 hover:opacity-90 text-shadow-sm'
-                    : 'text-gray-300 text-xl opacity-70 hover:text-gray-200 hover:opacity-70 text-shadow-sm'
-                  : isTransparent
-                  ? 'text-gray-300 text-lg opacity-80 hover:text-gray-200 hover:opacity-80 text-shadow-xs'
-                  : 'text-gray-400 text-lg opacity-50 hover:text-gray-300 hover:opacity-50 text-shadow-xs',
+                    ? 'text-white scale-110 font-bold text-4xl text-shadow-lg'
+                    : line.isNext
+                    ? isTransparent
+                      ? 'text-gray-100 text-2xl opacity-100 hover:text-white hover:opacity-100 text-shadow-md'
+                      : 'text-gray-200 text-2xl opacity-90 hover:text-gray-100 hover:opacity-85 text-shadow-md'
+                    : line.isPrevious
+                    ? isTransparent
+                      ? 'text-gray-200 text-xl opacity-95 hover:text-gray-100 hover:opacity-90 text-shadow-sm'
+                      : 'text-gray-300 text-xl opacity-70 hover:text-gray-200 hover:opacity-70 text-shadow-sm'
+                    : isTransparent
+                    ? 'text-gray-300 text-lg opacity-80 hover:text-gray-200 hover:opacity-80 text-shadow-xs'
+                    : 'text-gray-400 text-lg opacity-50 hover:text-gray-300 hover:opacity-50 text-shadow-xs',
                 ]"
                 title="🎯 Click to sync lyrics to this line"
-                >
+              >
                 {{ line.text }}
-                </div>
+              </div>
             </div>
           </template>
 
