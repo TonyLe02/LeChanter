@@ -46,7 +46,7 @@
     <!-- Fullscreen Lyrics Mode -->
     <div
       v-if="isFullscreenLyrics"
-      class="flex-1 flex flex-col justify-center items-center p-8 relative"
+      class="flex-1 flex flex-col justify-center items-center p-8 relative drag-region"
       :class="isTransparent ? 'bg-transparent' : 'bg-black/80'"
     >
       <!-- Fullscreen controls overlay -->
@@ -93,7 +93,7 @@
 
       <!-- Offset controls overlay -->
       <div
-        v-if="lyrics && !isFocusMode"
+        v-if="lyrics && (!isFocusMode || isTransparent)"
         class="absolute top-4 left-4 z-20 no-drag"
       >
         <!-- BPM Speed Controls -->
@@ -188,7 +188,7 @@
 
       <!-- Fullscreen lyrics display -->
       <div
-        class="w-full max-w-4xl text-center flex flex-col items-center justify-center min-h-0"
+        class="w-full max-w-4xl text-center flex flex-col items-center justify-center min-h-0 no-drag"
       >
         <div v-if="currentlyPlaying && !isFocusMode" class="mb-8">
           <h2 class="text-3xl font-bold text-white mb-2">
@@ -208,22 +208,30 @@
             <div
               class="flex flex-col justify-center items-center space-y-6 min-h-[60vh]"
             >
-              <div
+                <div
                 v-for="(line, index) in focusedLyrics"
                 :key="index"
                 @click="syncToLyricLine(line.actualIndex)"
                 :class="[
                   'transition-all duration-500 p-6 rounded-lg leading-relaxed text-center max-w-4xl cursor-pointer hover:bg-white/5',
                   line.isCurrent
-                    ? 'text-white scale-110 font-bold text-4xl text-shadow-lg'
-                    : line.isNext
-                    ? 'text-gray-300 text-2xl opacity-80 hover:text-gray-200'
-                    : 'text-gray-500 text-xl opacity-40 hover:text-gray-400 hover:opacity-60',
+                  ? 'text-white scale-110 font-bold text-4xl text-shadow-lg'
+                  : line.isNext
+                  ? isTransparent
+                    ? 'text-gray-100 text-2xl opacity-100 hover:text-white hover:opacity-100 text-shadow-md'
+                    : 'text-gray-200 text-2xl opacity-90 hover:text-gray-100 hover:opacity-85 text-shadow-md'
+                  : line.isPrevious
+                  ? isTransparent
+                    ? 'text-gray-200 text-xl opacity-95 hover:text-gray-100 hover:opacity-90 text-shadow-sm'
+                    : 'text-gray-300 text-xl opacity-70 hover:text-gray-200 hover:opacity-70 text-shadow-sm'
+                  : isTransparent
+                  ? 'text-gray-300 text-lg opacity-80 hover:text-gray-200 hover:opacity-80 text-shadow-xs'
+                  : 'text-gray-400 text-lg opacity-50 hover:text-gray-300 hover:opacity-50 text-shadow-xs',
                 ]"
                 title="🎯 Click to sync lyrics to this line"
-              >
+                >
                 {{ line.text }}
-              </div>
+                </div>
             </div>
           </template>
 
@@ -608,20 +616,22 @@ export default {
 
       const currentIndex = this.getCurrentLyricIndex();
       const totalLines = this.lyrics.lines.length;
-      const focusRange = 3; // Show current + 2 next lines
+      const focusRange = 6; // Show current + 5 more lines (increased from 3)
+      const beforeLines = 2; // Show 2 lines before current (increased from 1)
 
       const focusedLines = [];
 
+      // Show more lines before and after current line
       for (
-        let i = Math.max(0, currentIndex - 1);
-        i < Math.min(totalLines, currentIndex + focusRange);
+        let i = Math.max(0, currentIndex - beforeLines);
+        i < Math.min(totalLines, currentIndex + focusRange - beforeLines);
         i++
       ) {
         focusedLines.push({
           text: this.lyrics.lines[i],
           isCurrent: i === currentIndex,
-          isNext: i === currentIndex + 1,
-          isPrevious: i === currentIndex - 1,
+          isNext: i === currentIndex + 1 || i === currentIndex + 2, // Mark next 2 lines as "next"
+          isPrevious: i === currentIndex - 1 || i === currentIndex - 2, // Mark previous 2 lines as "previous"
           actualIndex: i, // Add actual index for sync
         });
       }
